@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @CrossOrigin
 public class EnvironmentalNewsController {
@@ -27,5 +29,12 @@ public class EnvironmentalNewsController {
     public ResponseEntity<Integer> saveNews(@RequestBody NewsDTO newsDTO) {
         int reponse = environmentalNewsService.saveNews(newsDTO);
         return new ResponseEntity<>(reponse, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/getDBNews")
+    public ResponseEntity<List<NewsDTO>> getDBNews() {
+        List<NewsDTO> response = environmentalNewsService.fetchNewsFromDatabase();
+        return new ResponseEntity<>(response, HttpStatus.OK);
+
     }
 }

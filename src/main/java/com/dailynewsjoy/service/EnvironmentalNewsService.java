@@ -11,7 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class EnvironmentalNewsService {
@@ -48,6 +50,23 @@ public class EnvironmentalNewsService {
             // Handle the error or throw an exception
             return "Error: " + responseEntity.getStatusCode();
         }
+    }
+
+
+    public List<NewsDTO> fetchNewsFromDatabase() {
+
+        List<News> newsArticles = this.newsRepository.findAll();
+        List<NewsDTO> newsList = new ArrayList<>();
+        newsArticles.forEach(news -> {
+            NewsDTO newsDTO = new NewsDTO();
+            newsDTO.setTitle(news.getTitle());
+            newsDTO.setBody(news.getBody());
+            newsDTO.setImage(news.getImage());
+            newsDTO.setDateTime(news.getDateTime());
+            newsList.add(newsDTO);
+
+        });
+        return newsList;
     }
 
 
